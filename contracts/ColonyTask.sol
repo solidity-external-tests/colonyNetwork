@@ -15,7 +15,7 @@
   along with The Colony Network. If not, see <http://www.gnu.org/licenses/>.
 */
 
-pragma solidity 0.5.8;
+pragma solidity >=0.5.8 <0.7.0;
 pragma experimental "ABIEncoderV2";
 
 import "./ColonyStorage.sol";
@@ -545,7 +545,7 @@ contract ColonyTask is ColonyStorage {
   // https://github.com/ethereum/solidity/issues/2884
   function executeCall(address to, uint256 value, bytes memory data) internal returns (bool success) {
     assembly {
-      success := call(gas, to, value, add(data, 0x20), mload(data), 0, 0)
+      success := call(gas(), to, value, add(data, 0x20), mload(data), 0, 0)
       }
   }
 

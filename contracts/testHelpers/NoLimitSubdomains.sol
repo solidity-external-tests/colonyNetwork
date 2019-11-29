@@ -15,14 +15,14 @@
   along with The Colony Network. If not, see <http://www.gnu.org/licenses/>.
 */
 
-pragma solidity 0.5.8;
+pragma solidity >=0.5.8 <0.7.0;
 pragma experimental ABIEncoderV2;
 
 import "./../Colony.sol";
 
 
 contract NoLimitSubdomains is Colony {
-  function addDomain(uint256 _permissionDomainId, uint256 _childSkillIndex, uint256 _parentDomainId) public
+  function addDomain(uint256 _permissionDomainId, uint256 _childSkillIndex, uint256 _parentDomainId) public override
   stoppable
   authDomain(_permissionDomainId, _childSkillIndex, _parentDomainId)
   {

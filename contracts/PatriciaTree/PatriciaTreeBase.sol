@@ -1,4 +1,4 @@
-pragma solidity 0.5.8;
+pragma solidity >=0.5.8 <0.7.0;
 pragma experimental "ABIEncoderV2";
 
 import {Data} from "./Data.sol";
@@ -17,15 +17,15 @@ contract PatriciaTreeBase is PatriciaTreeProofs {
 
   Data.Tree internal tree;
 
-  function getRootHash() public view returns (bytes32) {
+  function getRootHash() public virtual view returns (bytes32) {
     return tree.root;
   }
 
-  function getRootEdge() public view returns (Data.Edge memory e) {
+  function getRootEdge() public virtual view returns (Data.Edge memory e) {
     e = tree.rootEdge;
   }
 
-  function getNode(bytes32 hash) public view returns (Data.Node memory n) {
+  function getNode(bytes32 hash) public virtual view returns (Data.Node memory n) {
     n = tree.nodes[hash];
   }
 

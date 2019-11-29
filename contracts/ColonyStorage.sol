@@ -15,7 +15,7 @@
   along with The Colony Network. If not, see <http://www.gnu.org/licenses/>.
 */
 
-pragma solidity 0.5.8;
+pragma solidity >=0.5.8 <0.7.0;
 
 import "../lib/dappsys/math.sol";
 import "./ERC20Extended.sol";
@@ -197,7 +197,7 @@ contract ColonyStorage is CommonStorage, ColonyDataTypes, ColonyNetworkDataTypes
     _;
   }
 
-  modifier auth {
+  modifier auth override {
     require(isAuthorized(msg.sender, 1, msg.sig), "ds-auth-unauthorized");
     _;
   }
