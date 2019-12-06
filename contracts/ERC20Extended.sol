@@ -24,11 +24,11 @@ abstract contract ERC20Extended is ERC20 {
   event Mint(address indexed guy, uint wad);
   event Burn(address indexed guy, uint wad);
 
-  function mint(uint wad) public;
+  function mint(uint wad) public virtual;
 
-  function mint(address guy, uint wad) public;
+  function mint(address guy, uint wad) public virtual;
 
-  function burn(uint wad) public;
+  function burn(uint wad) public virtual;
 
-  function burn(address guy, uint wad) public;
+  function burn(address guy, uint wad) public virtual;
 }
