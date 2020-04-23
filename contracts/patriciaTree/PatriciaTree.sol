@@ -9,16 +9,16 @@ import "./IPatriciaTree.sol";
 /// @notice More info at: https://github.com/chriseth/patricia-trie
 contract PatriciaTree is IPatriciaTree, PatriciaTreeBase {
 
-  function insert(bytes memory key, bytes memory value) public {
+  function insert(bytes memory key, bytes memory value) public override {
     tree.insert(keccak256(key), value);
   }
 
-  function getProof(bytes memory key) public view returns (uint branchMask, bytes32[] memory _siblings) { // ignore-swc-127
+  function getProof(bytes memory key) public view override returns (uint branchMask, bytes32[] memory _siblings) { // ignore-swc-127
     return getProofFunctionality(keccak256(key));
   }
 
   function getImpliedRoot(bytes memory key, bytes memory value, uint branchMask, bytes32[] memory siblings) public
-  pure returns (bytes32)
+  pure override returns (bytes32)
   {
     return getImpliedRootHashKey(key, value, branchMask, siblings);
   }
