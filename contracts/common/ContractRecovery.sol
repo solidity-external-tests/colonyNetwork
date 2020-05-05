@@ -53,7 +53,7 @@ contract ContractRecovery is ContractRecoveryDataTypes, CommonStorage { // ignor
     // Reset recovery state
     recoveryMode = true;
     recoveryApprovalCount = 0;
-    recoveryEditedTimestamp = now;
+    recoveryEditedTimestamp = block.timestamp;
   }
 
   function isInRecoveryMode() public view returns (bool) {
@@ -63,12 +63,12 @@ contract ContractRecovery is ContractRecoveryDataTypes, CommonStorage { // ignor
   function enterRecoveryMode() public stoppable auth {
     recoveryMode = true;
     recoveryApprovalCount = 0;
-    recoveryEditedTimestamp = now;
+    recoveryEditedTimestamp = block.timestamp;
   }
 
   function approveExitRecovery() public recovery auth {
     require(recoveryApprovalTimestamps[msg.sender] < recoveryEditedTimestamp, "colony-recovery-approval-already-given");  // ignore-swc-116
-    recoveryApprovalTimestamps[msg.sender] = now;
+    recoveryApprovalTimestamps[msg.sender] = block.timestamp;
     recoveryApprovalCount++;
   }
 

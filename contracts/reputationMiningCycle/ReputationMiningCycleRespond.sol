@@ -326,7 +326,7 @@ contract ReputationMiningCycleRespond is ReputationMiningCycleStorage, PatriciaT
   function confirmChallengeCompleted(uint256[26] memory u) internal {
     // If everthing checked out, note that we've responded to the challenge.
     disputeRounds[u[U_ROUND]][u[U_IDX]].challengeStepCompleted += 1;
-    disputeRounds[u[U_ROUND]][u[U_IDX]].lastResponseTimestamp = now;
+    disputeRounds[u[U_ROUND]][u[U_IDX]].lastResponseTimestamp = block.timestamp;
     Submission storage submission = reputationHashSubmissions[disputeRounds[u[U_ROUND]][u[U_IDX]].firstSubmitter];
 
     emit ChallengeCompleted(submission.proposedNewRootHash, submission.nNodes, submission.jrh);

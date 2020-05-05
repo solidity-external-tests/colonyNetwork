@@ -85,7 +85,7 @@ contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProo
     // Check the ticket is a winning one.
     // All entries are acceptable if the 24 hour-long window is closed, so skip this check if that's the case
     if (!submissionWindowClosed()) {
-      uint256 target = (now - reputationMiningWindowOpenTimestamp) * X;
+      uint256 target = (block.timestamp - reputationMiningWindowOpenTimestamp) * X;
       require(uint256(getEntryHash(msg.sender, entryIndex, newHash)) < target, "colony-reputation-mining-cycle-submission-not-within-target");
     }
     _;
@@ -142,7 +142,7 @@ contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProo
 
   function resetWindow() public {
     require(msg.sender == colonyNetworkAddress, "colony-reputation-mining-sender-not-network");
-    reputationMiningWindowOpenTimestamp = now;
+    reputationMiningWindowOpenTimestamp = block.timestamp;
   }
 
   function challengeRoundComplete(uint256 round) public view returns (bool) {
@@ -184,8 +184,8 @@ contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProo
       }));
       // If we've got a pair of submissions to face off, may as well start now.
       if (nUniqueSubmittedHashes % 2 == 0) {
-        disputeRounds[0][nUniqueSubmittedHashes-1].lastResponseTimestamp = now;
-        disputeRounds[0][nUniqueSubmittedHashes-2].lastResponseTimestamp = now;
+        disputeRounds[0][nUniqueSubmittedHashes-1].lastResponseTimestamp = block.timestamp;
+        disputeRounds[0][nUniqueSubmittedHashes-2].lastResponseTimestamp = block.timestamp;
         /* disputeRounds[0][nUniqueSubmittedHashes-1].upperBound = disputeRounds[0][nUniqueSubmittedHashes-1].jrhNNodes; */
         /* disputeRounds[0][nUniqueSubmittedHashes-2].upperBound = disputeRounds[0][nUniqueSubmittedHashes-2].jrhNNodes; */
       }
@@ -274,7 +274,7 @@ contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProo
       require(disputeRounds[round][opponentIdx].challengeStepCompleted >= disputeRounds[round][idx].challengeStepCompleted, "colony-reputation-mining-less-challenge-rounds-completed");
 
       // Require that it has failed a challenge (i.e. failed to respond in time)
-      require(now - disputeRounds[round][idx].lastResponseTimestamp >= 600, "colony-reputation-mining-not-timed-out"); // Timeout is ten minutes here.
+      require(block.timestamp - disputeRounds[round][idx].lastResponseTimestamp >= 600, "colony-reputation-mining-not-timed-out"); // Timeout is ten minutes here.
 
       // Work out whether we are invalidating just the supplied idx or its opponent too.
       bool eliminateOpponent = false;
@@ -430,7 +430,7 @@ contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProo
     );
 
     // Record that they've responded
-    disputeRounds[round][index].lastResponseTimestamp = now;
+    disputeRounds[round][index].lastResponseTimestamp = block.timestamp;
     disputeRounds[round][index].challengeStepCompleted += 1;
 
     // Set bounds for first binary search if it's going to be needed
@@ -539,7 +539,7 @@ contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProo
   /////////////////////////
 
   function submissionWindowClosed() internal view returns (bool) {
-    return now - reputationMiningWindowOpenTimestamp >= MINING_WINDOW_SIZE;
+    return block.timestamp - reputationMiningWindowOpenTimestamp >= MINING_WINDOW_SIZE;
   }
 
   function processBinaryChallengeSearchResponse(
@@ -549,7 +549,7 @@ contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProo
     bytes32[2] memory lastSiblings
   ) internal
   {
-    disputeRounds[round][idx].lastResponseTimestamp = now;
+    disputeRounds[round][idx].lastResponseTimestamp = block.timestamp;
     disputeRounds[round][idx].challengeStepCompleted += 1;
     // Save our intermediate hash
     bytes32 intermediateReputationHash;
@@ -611,7 +611,7 @@ contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProo
     // Our opponent responded to this step of the challenge before we did, so we should
     // reset their 'last response' time to now, as they aren't able to respond
     // to the next challenge before they know what it is!
-    disputeRounds[round][opponentIdx].lastResponseTimestamp = now;
+    disputeRounds[round][opponentIdx].lastResponseTimestamp = block.timestamp;
   }
 
   function checkJRHProof1(bytes32 jrh, uint256 branchMask1, bytes32[] memory siblings1, uint256 reputationRootHashNNodes) internal view {
@@ -653,7 +653,7 @@ contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProo
 
   function startMemberOfPair(uint256 roundNumber, uint256 index) internal {
     Submission storage submission = reputationHashSubmissions[disputeRounds[roundNumber][index].firstSubmitter];
-    disputeRounds[roundNumber][index].lastResponseTimestamp = now;
+    disputeRounds[roundNumber][index].lastResponseTimestamp = block.timestamp;
     disputeRounds[roundNumber][index].upperBound = submission.jrhNNodes - 1;
     disputeRounds[roundNumber][index].lowerBound = 0;
     disputeRounds[roundNumber][index].targetHashDuringSearch = submission.jrh;

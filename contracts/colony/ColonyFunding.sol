@@ -102,7 +102,7 @@ contract ColonyFunding is ColonyStorage, PatriciaTreeProofs { // ignore-swc-123
   {
     Expenditure storage expenditure = expenditures[_id];
     ExpenditureSlot storage slot = expenditureSlots[_id][_slot];
-    require(add(expenditure.finalizedTimestamp, slot.claimDelay) <= now, "colony-expenditure-cannot-claim");
+    require(add(expenditure.finalizedTimestamp, slot.claimDelay) <= block.timestamp, "colony-expenditure-cannot-claim");
 
     FundingPot storage fundingPot = fundingPots[expenditure.fundingPotId];
     assert(fundingPot.balance[_token] >= fundingPot.payouts[_token]);
