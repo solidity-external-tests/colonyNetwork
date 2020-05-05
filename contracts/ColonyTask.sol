@@ -46,7 +46,7 @@ contract ColonyTask is ColonyStorage {
   modifier afterDueDate(uint256 _id) {
     uint dueDate = tasks[_id].dueDate;
     /* require(dueDate > 0, "colony-task-due-date-not-set"); */
-    require(now >= dueDate, "colony-task-due-date-in-future");
+    require(block.timestamp >= dueDate, "colony-task-due-date-in-future");
     _;
   }
 
@@ -57,7 +57,7 @@ contract ColonyTask is ColonyStorage {
     uint taskCompletionTime = tasks[_id].completionTimestamp;
 
     // Check we are within 5 days of the work submission time
-    require(sub(now, taskCompletionTime) <= RATING_COMMIT_TIMEOUT, "colony-task-rating-secret-submit-period-closed");
+    require(sub(block.timestamp, taskCompletionTime) <= RATING_COMMIT_TIMEOUT, "colony-task-rating-secret-submit-period-closed");
     _;
   }
 
@@ -69,11 +69,11 @@ contract ColonyTask is ColonyStorage {
     // Otherwise start the reveal period after the commit period has expired
     // In both cases, keep reveal period open for 5 days
     if (ratingSecrets.count == 2) {
-      require(sub(now, ratingSecrets.timestamp) <= RATING_REVEAL_TIMEOUT, "colony-task-rating-secret-reveal-period-closed");
+      require(sub(block.timestamp, ratingSecrets.timestamp) <= RATING_REVEAL_TIMEOUT, "colony-task-rating-secret-reveal-period-closed");
     } else if (ratingSecrets.count < 2) {
       uint taskCompletionTime = tasks[_id].completionTimestamp;
-      require(sub(now, taskCompletionTime) > RATING_COMMIT_TIMEOUT, "colony-task-rating-secret-reveal-period-not-open");
-      require(sub(now, taskCompletionTime) <= add(RATING_COMMIT_TIMEOUT, RATING_REVEAL_TIMEOUT), "colony-task-rating-secret-reveal-period-closed");
+      require(sub(block.timestamp, taskCompletionTime) > RATING_COMMIT_TIMEOUT, "colony-task-rating-secret-reveal-period-not-open");
+      require(sub(block.timestamp, taskCompletionTime) <= add(RATING_COMMIT_TIMEOUT, RATING_REVEAL_TIMEOUT), "colony-task-rating-secret-reveal-period-closed");
     }
     _;
   }
@@ -126,7 +126,7 @@ contract ColonyTask is ColonyStorage {
     if (dueDate == 0) {
       // If / When restoring due date to optional status in the future, be sure to go uncomment the relevant line in `afterDueDate` that checks the
       // due date has been set.
-      dueDate = now + 90 days;
+      dueDate = block.timestamp + 90 days;
     }
     this.setTaskDueDate(taskCount, dueDate);
 
@@ -273,7 +273,7 @@ contract ColonyTask is ColonyStorage {
     require(_ratingSecret != "", "colony-task-rating-secret-missing");
     RatingSecrets storage ratingSecrets = taskWorkRatings[_id];
     ratingSecrets.count += 1;
-    ratingSecrets.timestamp = now;
+    ratingSecrets.timestamp = block.timestamp;
     ratingSecrets.secret[uint8(_role)] = _ratingSecret;
   }
 
@@ -464,7 +464,7 @@ contract ColonyTask is ColonyStorage {
   }
 
   function markTaskCompleted(uint256 _id) internal {
-    tasks[_id].completionTimestamp = now;
+    tasks[_id].completionTimestamp = block.timestamp;
     emit TaskCompleted(_id);
   }
 
@@ -576,7 +576,7 @@ contract ColonyTask is ColonyStorage {
     // More than 10 days from completion have passed
     return (
       tasks[_id].completionTimestamp > 0 && // If this is zero, the task isn't complete yet!
-      sub(now, tasks[_id].completionTimestamp) > add(RATING_COMMIT_TIMEOUT, RATING_REVEAL_TIMEOUT)
+      sub(block.timestamp, tasks[_id].completionTimestamp) > add(RATING_COMMIT_TIMEOUT, RATING_REVEAL_TIMEOUT)
     );
   }
 

@@ -103,7 +103,7 @@ contract ColonyExpenditure is ColonyStorage {
     require(fundingPot.payoutsWeCannotMake == 0, "colony-expenditure-not-funded");
 
     expenditures[_id].status = ExpenditureStatus.Finalized;
-    expenditures[_id].finalizedTimestamp = now;
+    expenditures[_id].finalizedTimestamp = block.timestamp;
 
     emit ExpenditureFinalized(_id);
   }

@@ -115,7 +115,7 @@ contract TokenLocking is TokenLockingStorage, DSMath { // ignore-swc-123
     }
 
     uint256 newAmount = add(lock.balance, _amount);
-    uint256 newTimestamp = add(mul(prevWeight, lock.timestamp), mul(currWeight, now)) / add(prevWeight, currWeight);
+    uint256 newTimestamp = add(mul(prevWeight, lock.timestamp), mul(currWeight, block.timestamp)) / add(prevWeight, currWeight);
     userLocks[_token][msg.sender] = Lock(totalLockCount[_token], newAmount, newTimestamp);
 
     emit UserTokenDeposited(_token, msg.sender, newAmount, newTimestamp);
