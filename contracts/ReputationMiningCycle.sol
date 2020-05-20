@@ -26,10 +26,10 @@ import "./ReputationMiningCycleStorage.sol";
 
 
 contract ReputationMiningCycle is ReputationMiningCycleStorage, PatriciaTreeProofs, DSMath {
-  /// @notice Minimum reputation mining stake in CLNY
+  /// @dev Minimum reputation mining stake in CLNY
   uint256 constant MIN_STAKE = 2000 * WAD;
 
-  /// @notice Size of mining window in seconds
+  /// @dev Size of mining window in seconds
   uint256 constant MINING_WINDOW_SIZE = 60 * 60 * 24; // 24 hours
 
   /// @notice A modifier that checks that the supplied `roundNumber` is the final round
