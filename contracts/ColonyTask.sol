@@ -109,7 +109,7 @@ contract ColonyTask is ColonyStorage {
       payoutsWeCannotMake: 0
     });
 
-    Task memory task;
+    Task storage task = tasks[taskCount];
     task.specificationHash = _specificationHash;
     task.fundingPotId = fundingPotCount;
     task.domainId = _domainId;
