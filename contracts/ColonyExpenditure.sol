@@ -36,11 +36,10 @@ contract ColonyExpenditure is ColonyStorage {
     expenditureCount += 1;
     fundingPotCount += 1;
 
-    fundingPots[fundingPotCount] = FundingPot({
-      associatedType: FundingPotAssociatedType.Expenditure,
-      associatedTypeId: expenditureCount,
-      payoutsWeCannotMake: 0
-    });
+    FundingPot storage fundingPot = fundingPots[fundingPotCount];
+    fundingPot.associatedType = FundingPotAssociatedType.Expenditure;
+    fundingPot.associatedTypeId = expenditureCount;
+    fundingPot.payoutsWeCannotMake = 0;
 
     expenditures[expenditureCount] = Expenditure({
       status: ExpenditureStatus.Active,

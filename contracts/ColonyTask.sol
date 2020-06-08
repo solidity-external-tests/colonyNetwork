@@ -103,18 +103,17 @@ contract ColonyTask is ColonyStorage {
     taskCount += 1;
 
     fundingPotCount += 1;
-    fundingPots[fundingPotCount] = FundingPot({
-      associatedType: FundingPotAssociatedType.Task,
-      associatedTypeId: taskCount,
-      payoutsWeCannotMake: 0
-    });
+
+    FundingPot storage fundingPot = fundingPots[fundingPotCount];
+    fundingPot.associatedType = FundingPotAssociatedType.Task;
+    fundingPot.associatedTypeId = taskCount;
+    fundingPot.payoutsWeCannotMake = 0;
 
     Task storage task = tasks[taskCount];
     task.specificationHash = _specificationHash;
     task.fundingPotId = fundingPotCount;
     task.domainId = _domainId;
     task.skills = new uint256[](1);
-    tasks[taskCount] = task;
     tasks[taskCount].roles[uint8(TaskRole.Manager)].user = msg.sender;
     tasks[taskCount].roles[uint8(TaskRole.Evaluator)].user = msg.sender;
 

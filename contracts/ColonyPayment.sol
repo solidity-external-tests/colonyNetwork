@@ -41,11 +41,11 @@ contract ColonyPayment is ColonyStorage {
     paymentCount += 1;
 
     fundingPotCount += 1;
-    fundingPots[fundingPotCount] = FundingPot({
-      associatedType: FundingPotAssociatedType.Payment,
-      associatedTypeId: paymentCount,
-      payoutsWeCannotMake: _amount > 0 ? 1 : 0
-    });
+
+    FundingPot storage fundingPot = fundingPots[fundingPotCount];
+    fundingPot.associatedType = FundingPotAssociatedType.Payment;
+    fundingPot.associatedTypeId = paymentCount;
+    fundingPot.payoutsWeCannotMake = _amount > 0 ? 1 : 0;
 
     fundingPots[fundingPotCount].payouts[_token] = _amount;
 
