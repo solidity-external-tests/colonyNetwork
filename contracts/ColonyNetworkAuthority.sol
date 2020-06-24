@@ -21,7 +21,7 @@ import "./CommonAuthority.sol";
 
 
 contract ColonyNetworkAuthority is CommonAuthority {
-  constructor(address colonyNetwork) public CommonAuthority(colonyNetwork) {
+  constructor(address colonyNetwork) CommonAuthority(colonyNetwork) {
 
   }
 }

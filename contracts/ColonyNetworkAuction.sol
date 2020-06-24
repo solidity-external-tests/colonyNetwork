@@ -114,7 +114,7 @@ contract DutchAuction is DSMath {
   event AuctionClaim(address indexed _recipient, uint256 _sentAmount);
   event AuctionFinalized(uint256 _finalPrice);
 
-  constructor(address _clnyToken, address _token, address _metaColonyAddress) public {
+  constructor(address _clnyToken, address _token, address _metaColonyAddress) {
     colonyNetwork = msg.sender;
     metaColonyAddress = _metaColonyAddress;
     clnyToken = ERC20Extended(_clnyToken);

@@ -2,7 +2,7 @@ pragma solidity >=0.5.8 <0.7.0;
 
 
 contract TransferTest {
-  constructor() public payable { }
+  constructor() payable { }
   receive() external payable { }
 
   function fireTransfer(address payable target, uint256 amount) public {

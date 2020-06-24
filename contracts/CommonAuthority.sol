@@ -24,7 +24,7 @@ import "./DomainRoles.sol";
 contract CommonAuthority is DomainRoles {
   uint8 constant RECOVERY_ROLE = uint8(ColonyDataTypes.ColonyRole.Recovery);
 
-  constructor(address contractAddress) public {
+  constructor(address contractAddress) {
     setRecoveryRoleCapability(contractAddress, "enterRecoveryMode()");
     setRecoveryRoleCapability(contractAddress, "approveExitRecovery()");
     setRecoveryRoleCapability(contractAddress, "setStorageSlotRecovery(uint256,bytes32)");

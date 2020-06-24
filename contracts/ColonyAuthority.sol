@@ -31,7 +31,7 @@ contract ColonyAuthority is CommonAuthority {
 
   address internal colony;
 
-  constructor(address _colony) public CommonAuthority(_colony) {
+  constructor(address _colony) CommonAuthority(_colony) {
     colony = _colony;
 
     // Add permissions for the Administration role

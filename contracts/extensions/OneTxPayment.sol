@@ -32,7 +32,7 @@ contract OneTxPayment {
   IColony colony;
   IColonyNetwork colonyNetwork;
 
-  constructor(address _colony) public {
+  constructor(address _colony) {
     colony = IColony(_colony);
     colonyNetwork = IColonyNetwork(colony.getColonyNetwork());
   }
