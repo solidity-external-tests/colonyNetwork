@@ -8,6 +8,7 @@ import "./IPatriciaTree.sol";
 /// @title Patricia tree implementation
 /// @notice More info at: https://github.com/chriseth/patricia-trie
 contract PatriciaTree is IPatriciaTree, PatriciaTreeBase {
+  using Data for Data.Tree;
 
   function insert(bytes memory key, bytes memory value) public override {
     tree.insert(keccak256(key), value);
