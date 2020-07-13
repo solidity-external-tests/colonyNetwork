@@ -8,6 +8,7 @@ import "./IPatriciaTreeNoHash.sol";
 /// @title Patricia tree implementation
 /// @notice More info at: https://github.com/chriseth/patricia-trie
 contract PatriciaTreeNoHash is IPatriciaTreeNoHash, PatriciaTreeBase {
+  using Data for Data.Tree;
 
   function insert(bytes32 key, bytes memory value) public override {
     tree.insert(key, value);
