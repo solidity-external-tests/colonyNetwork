@@ -16,6 +16,7 @@
 */
 
 pragma solidity >=0.5.8 <0.8.0;
+pragma experimental ABIEncoderV2;
 
 import "../lib/dappsys/math.sol";
 import "./ERC20Extended.sol";
