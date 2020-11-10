@@ -337,7 +337,7 @@ contract Colony is ColonyStorage, PatriciaTreeProofs {
     userAddress >>= 96;
 
     // Require that the user is proving their own reputation in this colony.
-    if (address(colonyAddress) != address(this) || address(userAddress) != msg.sender) {
+    if (address(uint160(colonyAddress)) != address(this) || address(uint160(userAddress)) != msg.sender) {
       return false;
     }
 
