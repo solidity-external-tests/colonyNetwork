@@ -358,8 +358,8 @@ contract ReputationMiningCycleRespond is ReputationMiningCycleStorage, PatriciaT
     address expectedAddress;
     (expectedSkillId, expectedAddress) = getExpectedSkillIdAndAddress(u, logEntry);
 
-    require(expectedAddress == address(uint256(b32[B_REPUTATION_KEY_USER])), "colony-reputation-mining-user-address-mismatch");
-    require(logEntry.colony == address(uint256(b32[B_REPUTATION_KEY_COLONY])), "colony-reputation-mining-colony-address-mismatch");
+    require(expectedAddress == address(uint160(uint256(b32[B_REPUTATION_KEY_USER]))), "colony-reputation-mining-user-address-mismatch");
+    require(logEntry.colony == address(uint160(uint256(b32[B_REPUTATION_KEY_COLONY]))), "colony-reputation-mining-colony-address-mismatch");
     require(expectedSkillId == uint256(b32[B_REPUTATION_KEY_SKILLID]), "colony-reputation-mining-skill-id-mismatch");
 
     require(
