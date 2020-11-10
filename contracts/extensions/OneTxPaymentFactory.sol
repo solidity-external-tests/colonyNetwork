@@ -30,7 +30,7 @@ contract OneTxPaymentFactory is ExtensionFactory, ColonyDataTypes { // ignore-sw
 
   function deployExtension(address _colony) external override {
     require(IColony(_colony).hasUserRole(msg.sender, 1, ColonyRole.Root), "colony-extension-user-not-root"); // ignore-swc-123
-    require(deployedExtensions[_colony] == OneTxPayment(0x00), "colony-extension-already-deployed");
+    require(deployedExtensions[_colony] == OneTxPayment(address(0x00)), "colony-extension-already-deployed");
     OneTxPayment newExtensionAddress = new OneTxPayment(_colony);
     deployedExtensions[_colony] = newExtensionAddress;
     emit ExtensionDeployed("OneTxPayment", _colony, address(newExtensionAddress));
@@ -38,7 +38,7 @@ contract OneTxPaymentFactory is ExtensionFactory, ColonyDataTypes { // ignore-sw
 
   function removeExtension(address _colony) external override {
     require(IColony(_colony).hasUserRole(msg.sender, 1, ColonyRole.Root), "colony-extension-user-not-root"); // ignore-swc-123
-    deployedExtensions[_colony] = OneTxPayment(0x00);
+    deployedExtensions[_colony] = OneTxPayment(address(0x00));
     emit ExtensionRemoved("OneTxPayment", _colony);
   }
 }
