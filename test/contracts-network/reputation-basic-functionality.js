@@ -108,7 +108,8 @@ contract("Reputation mining - basic functionality", (accounts) => {
 
       await checkErrorRevert(
         tokenLocking.methods["withdraw(address,uint256,bool)"](clnyToken.address, 10000, false, { from: MINER2 }),
-        "ds-math-sub-underflow"
+        // FIXME: web3.js does not return the panic code
+        undefined
       );
 
       const info = await tokenLocking.getUserLock(clnyToken.address, MINER2);
