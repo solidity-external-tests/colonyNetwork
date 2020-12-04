@@ -114,8 +114,8 @@ contract ColonyTask is ColonyStorage {
     task.fundingPotId = fundingPotCount;
     task.domainId = _domainId;
     task.skills = new uint256[](1);
-    tasks[taskCount].roles[uint8(TaskRole.Manager)].user = msg.sender;
-    tasks[taskCount].roles[uint8(TaskRole.Evaluator)].user = msg.sender;
+    tasks[taskCount].roles[uint8(TaskRole.Manager)].user = payable(msg.sender);
+    tasks[taskCount].roles[uint8(TaskRole.Evaluator)].user = payable(msg.sender);
 
     if (_skillId > 0) {
       this.setTaskSkill(taskCount, _skillId);
@@ -327,11 +327,11 @@ contract ColonyTask is ColonyStorage {
   }
 
   function removeTaskEvaluatorRole(uint256 _id) public stoppable self {
-    setTaskRoleUser(_id, TaskRole.Evaluator, address(0x0));
+    setTaskRoleUser(_id, TaskRole.Evaluator, payable(address(0x0)));
   }
 
   function removeTaskWorkerRole(uint256 _id) public stoppable self {
-    setTaskRoleUser(_id, TaskRole.Worker, address(0x0));
+    setTaskRoleUser(_id, TaskRole.Worker, payable(address(0x0)));
   }
 
   function setTaskSkill(uint256 _id, uint256 _skillId) public
