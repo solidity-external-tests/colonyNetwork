@@ -155,7 +155,7 @@ contract CoinMachine is ColonyExtension {
 
     if (purchaseToken == address(0x0)) {
       require(msg.value >= totalCost, "coin-machine-insufficient-funds");
-      if (msg.value > totalCost) { msg.sender.transfer(msg.value - totalCost); }
+      if (msg.value > totalCost) { payable(msg.sender).transfer(msg.value - totalCost); }
     } else {
       ERC20Extended(purchaseToken).transferFrom(msg.sender, address(this), totalCost);
     }

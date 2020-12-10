@@ -103,7 +103,7 @@ contract ColonyNetworkExtensions is ColonyNetworkStorage {
     require(installations[_extensionId][msg.sender] != address(0x0), "colony-network-extension-not-installed");
 
     ColonyExtension extension = ColonyExtension(installations[_extensionId][msg.sender]);
-    installations[_extensionId][msg.sender] = address(0x0);
+    installations[_extensionId][msg.sender] = payable(address(0x0));
     extension.uninstall();
 
     emit ExtensionUninstalled(_extensionId, msg.sender);
