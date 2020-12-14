@@ -97,7 +97,7 @@ contract ReputationMiningCycle is ReputationMiningCycleCommon {
   function initialise(address _tokenLockingAddress, address _clnyTokenAddress) public {
     // Prevent this being called multiple times
     require(colonyNetworkAddress == address(0x0), "colony-reputation-mining-cycle-already-initialised");
-    colonyNetworkAddress = msg.sender;
+    colonyNetworkAddress = payable(msg.sender);
     tokenLockingAddress = _tokenLockingAddress;
     clnyTokenAddress = _clnyTokenAddress;
   }

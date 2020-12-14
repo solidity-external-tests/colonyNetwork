@@ -56,7 +56,7 @@ contract OneTxPayment is ColonyExtension {
 
   /// @notice Called when uninstalling the extension
   function uninstall() public override auth {
-    selfdestruct(address(uint160(address(colony))));
+    selfdestruct(payable(uint160(address(colony))));
   }
 
   /// @notice Completes a colony payment in a single transaction

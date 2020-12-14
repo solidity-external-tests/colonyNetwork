@@ -59,7 +59,7 @@ contract ColonyNetworkExtensions is ColonyNetworkStorage {
     require(installations[_extensionId][msg.sender] == address(0x0), "colony-network-extension-already-installed");
 
     EtherRouter extension = new EtherRouter();
-    installations[_extensionId][msg.sender] = address(extension);
+    installations[_extensionId][msg.sender] = payable(extension);
 
     extension.setResolver(resolvers[_extensionId][_version]);
     ColonyExtension(address(extension)).install(msg.sender);
